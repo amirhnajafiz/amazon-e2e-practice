@@ -1,30 +1,21 @@
 package configs
 
-import (
-	"github.com/amirhnajafiz/caaas/internal/enum"
-	"github.com/amirhnajafiz/caaas/internal/monitoring/logger"
-	"github.com/amirhnajafiz/caaas/internal/monitoring/metrics"
-	"github.com/amirhnajafiz/caaas/internal/storage"
-	"github.com/amirhnajafiz/caaas/pkg/jwt"
-)
-
+// Default returns the default configuration.
 func Default() Config {
 	return Config{
-		Mode:           enum.ModeGW,
-		HTTPServerPort: 8080,
-		Metrics: metrics.Config{
-			Enable: false,
-			Port:   8081,
+		Port: 8080,
+		Metrics: Metrics{
+			Enabled: false,
+			Port:    8081,
 		},
-		Auth: jwt.Config{
-			PrivateKey:       "secret",
-			TokensExpireTime: 30, // in miutes
-			EncryptionSalt:   "salt",
+		JWT: JWT{
+			PrivateKey: "secret",
+			ExpireTime: 30, // in miutes
 		},
-		Logger: logger.Config{
+		Logger: Logger{
 			Level: "debug",
 		},
-		Storage: storage.Config{
+		Storage: Storage{
 			Port:     5432,
 			Host:     "127.0.0.1",
 			User:     "user",

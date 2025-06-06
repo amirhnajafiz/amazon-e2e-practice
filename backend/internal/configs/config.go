@@ -4,11 +4,6 @@ import (
 	"log"
 	"strings"
 
-	"github.com/amirhnajafiz/caaas/internal/monitoring/logger"
-	"github.com/amirhnajafiz/caaas/internal/monitoring/metrics"
-	"github.com/amirhnajafiz/caaas/internal/storage"
-	"github.com/amirhnajafiz/caaas/pkg/jwt"
-
 	"github.com/knadh/koanf"
 	"github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/env"
@@ -18,21 +13,20 @@ import (
 
 const (
 	// Prefix indicates environment variables prefix.
-	Prefix = "CAAAS_"
+	Prefix = "AEP_"
 )
 
 // Config stores the application parameters.
 type Config struct {
-	Mode           string         `koanf:"mode"`
-	HTTPServerPort int            `koanf:"http_server_port"`
-	Metrics        metrics.Config `koanf:"metrics"`
-	Auth           jwt.Config     `koanf:"auth"`
-	Logger         logger.Config  `koanf:"logger"`
-	Storage        storage.Config `koanf:"storage"`
+	Port    int     `koanf:"int"`
+	Metrics Metrics `koanf:"metrics"`
+	JWT     JWT     `koanf:"jwt"`
+	Logger  Logger  `koanf:"logger"`
+	Storage Storage `koanf:"storage"`
 }
 
-// LoadConfigs returns the config struct.
-func LoadConfigs(path string) Config {
+// Load returns the config struct from the given YAML file.
+func Load(path string) Config {
 	var instance Config
 
 	k := koanf.New(".")
