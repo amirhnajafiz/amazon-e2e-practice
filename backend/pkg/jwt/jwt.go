@@ -12,18 +12,17 @@ var (
 	errInvalidToken  = errors.New("token is invalid")
 )
 
+// Auth handles JWT token generation and parsing.
 type Auth struct {
 	key    string
-	salt   string
 	expire int
 }
 
 // New builds a new auth struct for handling JWT tokens.
-func New(cfg Config) *Auth {
+func New(pk string, epx int) *Auth {
 	return &Auth{
-		key:    cfg.PrivateKey,
-		expire: cfg.TokensExpireTime,
-		salt:   cfg.EncryptionSalt,
+		key:    pk,
+		expire: epx,
 	}
 }
 
@@ -40,7 +39,7 @@ func (a *Auth) GenerateJWT(username string) (string, error) {
 	claims["authorized"] = true
 
 	// generate token string
-	tokenString, err := token.SignedString([]byte(a.salt + a.key))
+	tokenString, err := token.SignedString([]byte(a.key))
 	if err != nil {
 		return "", err
 	}
@@ -55,7 +54,7 @@ func (a *Auth) ParseJWT(tokenString string) (string, error) {
 			return "", errSigningMethod
 		}
 
-		return []byte(a.salt + a.key), nil
+		return []byte(a.key), nil
 	})
 	if err != nil {
 		return "", err
