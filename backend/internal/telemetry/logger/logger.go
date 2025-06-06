@@ -11,10 +11,10 @@ import (
 )
 
 // NewLogger generates a new zap logger.
-func NewLogger(cfg Config) *zap.Logger {
+func NewLogger(level string) *zap.Logger {
 	var lvl zapcore.Level
-	if err := lvl.Set(cfg.Level); err != nil {
-		log.Printf("cannot parse log level %s: %s", cfg.Level, err)
+	if err := lvl.Set(level); err != nil {
+		log.Printf("cannot parse log level %s: %s", level, err)
 
 		lvl = zapcore.WarnLevel
 	}

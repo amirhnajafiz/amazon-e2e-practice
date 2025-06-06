@@ -12,6 +12,7 @@ import (
 func StartServer(port int) {
 	go func() {
 		http.Handle("/metrics", promhttp.Handler())
+
 		if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
 			log.Println(err)
 		}
