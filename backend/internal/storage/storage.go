@@ -8,8 +8,8 @@ import (
 )
 
 // NewConnection to the give Postgres database.
-func NewConnection(cfg Config) (*pg.DB, error) {
-	opt, err := pg.ParseURL(cfg.URL())
+func NewConnection(uri string) (*pg.DB, error) {
+	opt, err := pg.ParseURL(uri)
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to database: %v", err)
 	}
