@@ -6,7 +6,6 @@ import (
 	"github.com/amirhnajafiz/aep/backend/internal/configs"
 	"github.com/amirhnajafiz/aep/backend/internal/database"
 	"github.com/amirhnajafiz/aep/backend/internal/handler"
-	"github.com/amirhnajafiz/aep/backend/internal/storage"
 	"github.com/amirhnajafiz/aep/backend/internal/telemetry/logger"
 	"github.com/amirhnajafiz/aep/backend/internal/telemetry/metrics"
 	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
@@ -22,23 +21,13 @@ func main() {
 	// initialize logger
 	logr := logger.NewLogger(cfg.Logger.Level)
 
-	// open storage connection
-	stg, err := storage.NewConnection(cfg.Storage.URI())
-	if err != nil {
-		logr.Fatal("failed to connect to database", zap.Error(err))
-	}
-
 	// create a new database instance
-	db, err := database.NewDatabase(stg)
+	db, err := database.NewDatabase(cfg.Storage.URI())
 	if err != nil {
 		logr.Fatal("failed to initialize database", zap.Error(err))
 	}
 
-	// initialize JWT auth
-	auth := jwt.New(cfg.JWT.PrivateKey, cfg.JWT.ExpireTime)
-
-	// initialize metrics
-	mtx := metrics.NewMetrics()
+	// start metrics server if enabled
 	if cfg.Metrics.Enabled {
 		logr.Info("metrics are enabled", zap.Int("port", cfg.Metrics.Port))
 		metrics.StartServer(cfg.Metrics.Port)
@@ -47,9 +36,9 @@ func main() {
 	// initialize handler
 	hd := handler.Handler{
 		DB:      db,
-		JWT:     auth,
+		JWT:     jwt.New(cfg.JWT.PrivateKey, cfg.JWT.ExpireTime),
 		Logger:  logr,
-		Metrics: mtx,
+		Metrics: metrics.NewMetrics(),
 	}
 
 	// create a new Echo instance

@@ -21,13 +21,10 @@ func ObserveMetrics(mtx *metrics.Metrics) echo.MiddlewareFunc {
 			status := c.Response().Status
 			method := c.Request().Method
 			path := c.Request().URL.Path
-			label := fmt.Sprintf("%s-%s", method, path)
 
-			mtx.AddRequest(label)
-			mtx.ObserveLatency(label, float64(latency.Milliseconds()))
-			if status >= 300 {
-				mtx.AddFailedCall(label)
-			}
+			mtx.AddRequest(path, method)
+			mtx.ObserveLatency(path, method, float64(latency.Milliseconds()))
+			mtx.AddStatusCode(path, method, fmt.Sprintf("%d", status))
 
 			return err
 		}
