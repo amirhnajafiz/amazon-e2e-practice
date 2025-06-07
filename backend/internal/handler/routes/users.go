@@ -1,8 +1,16 @@
 package routes
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/go-pg/pg/v10"
+	"github.com/labstack/echo/v4"
+	"go.uber.org/zap"
+)
 
-type UsersGroup struct{}
+// UsersGroup handles user management routes.
+type UsersGroup struct {
+	DB     *pg.DB
+	Logger *zap.Logger
+}
 
 func (u *UsersGroup) ListUsers(c echo.Context) error {
 	// Implement the logic to list users here

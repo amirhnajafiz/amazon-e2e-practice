@@ -1,8 +1,16 @@
 package routes
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/go-pg/pg/v10"
+	"github.com/labstack/echo/v4"
+	"go.uber.org/zap"
+)
 
-type AuthGroup struct{}
+// AuthGroup handles authentication-related routes.
+type AuthGroup struct {
+	DB     *pg.DB
+	Logger *zap.Logger
+}
 
 func (a *AuthGroup) Signin(c echo.Context) error {
 	// Implement the signin logic here
