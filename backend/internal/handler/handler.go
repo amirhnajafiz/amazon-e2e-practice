@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"github.com/amirhnajafiz/caaas/internal/handler/middlewares"
-	"github.com/amirhnajafiz/caaas/internal/handler/routes"
-	"github.com/amirhnajafiz/caaas/internal/telemetry/metrics"
-	"github.com/amirhnajafiz/caaas/pkg/jwt"
+	"github.com/amirhnajafiz/aep/backend/internal/handler/middlewares"
+	"github.com/amirhnajafiz/aep/backend/internal/handler/routes"
+	"github.com/amirhnajafiz/aep/backend/internal/telemetry/metrics"
+	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
 
 	"github.com/go-pg/pg/v10"
 	"github.com/labstack/echo/v4"

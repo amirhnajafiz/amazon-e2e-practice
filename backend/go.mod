@@ -1,6 +1,6 @@
-module github.com/amirhnajafiz/caaas
+module github.com/amirhnajafiz/aep/backend
 
-go 1.22
+go 1.23
 
 require (
 	github.com/go-pg/pg/v10 v10.13.0

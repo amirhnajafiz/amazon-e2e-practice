@@ -3,7 +3,7 @@ package middlewares
 import (
 	"net/http"
 
-	"github.com/amirhnajafiz/caaas/pkg/jwt"
+	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
 
 	"github.com/labstack/echo/v4"
 )

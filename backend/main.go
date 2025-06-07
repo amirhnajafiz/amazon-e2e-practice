@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/amirhnajafiz/caaas/internal/configs"
-	"github.com/amirhnajafiz/caaas/internal/handler"
-	"github.com/amirhnajafiz/caaas/internal/storage"
-	"github.com/amirhnajafiz/caaas/internal/telemetry/logger"
-	"github.com/amirhnajafiz/caaas/internal/telemetry/metrics"
-	"github.com/amirhnajafiz/caaas/pkg/jwt"
+	"github.com/amirhnajafiz/aep/backend/internal/configs"
+	"github.com/amirhnajafiz/aep/backend/internal/handler"
+	"github.com/amirhnajafiz/aep/backend/internal/storage"
+	"github.com/amirhnajafiz/aep/backend/internal/telemetry/logger"
+	"github.com/amirhnajafiz/aep/backend/internal/telemetry/metrics"
+	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
 
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
