@@ -8,12 +8,6 @@ func (db Database) GetAllUsers() ([]*models.User, error) {
 	return users, nil
 }
 
-func (db Database) GetUserByID(id string) (*models.User, error) {
-	var user *models.User
-
-	return user, nil
-}
-
 func (db Database) CreateUser(user *models.User) (*models.User, error) {
 	// Here you would typically insert the user into the database
 	// and return the created user object, possibly with an ID assigned by the database.
