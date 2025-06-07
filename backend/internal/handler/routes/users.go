@@ -1,23 +1,25 @@
-package handler
+package routes
 
 import "github.com/labstack/echo/v4"
 
-func (h *Handler) listUsers(c echo.Context) error {
+type UsersGroup struct{}
+
+func (u *UsersGroup) ListUsers(c echo.Context) error {
 	// Implement the logic to list users here
 	return nil
 }
 
-func (h *Handler) getUser(c echo.Context) error {
+func (u *UsersGroup) GetUser(c echo.Context) error {
 	// Implement the logic to get a specific user here
 	return nil
 }
 
-func (h *Handler) updateUser(c echo.Context) error {
+func (u *UsersGroup) UpdateUser(c echo.Context) error {
 	// Implement the logic to update a user here
 	return nil
 }
 
-func (h *Handler) deleteUser(c echo.Context) error {
+func (u *UsersGroup) DeleteUser(c echo.Context) error {
 	// Implement the logic to delete a user here
 	return nil
 }
