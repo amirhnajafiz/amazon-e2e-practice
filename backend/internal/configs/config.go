@@ -18,11 +18,13 @@ const (
 
 // Config stores the application parameters.
 type Config struct {
-	Port    int     `koanf:"int"`
-	Metrics Metrics `koanf:"metrics"`
-	JWT     JWT     `koanf:"jwt"`
-	Logger  Logger  `koanf:"logger"`
-	Storage Storage `koanf:"storage"`
+	Port            int     `koanf:"int"`
+	DefaultUser     string  `koanf:"default_user"`
+	DefaultPassword string  `koanf:"default_password"`
+	Metrics         Metrics `koanf:"metrics"`
+	JWT             JWT     `koanf:"jwt"`
+	Logger          Logger  `koanf:"logger"`
+	Storage         Storage `koanf:"storage"`
 }
 
 // Load returns the config struct from the given YAML file.

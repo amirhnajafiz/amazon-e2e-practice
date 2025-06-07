@@ -3,7 +3,9 @@ package configs
 // Default returns the default configuration.
 func Default() Config {
 	return Config{
-		Port: 8080,
+		Port:            8080,
+		DefaultUser:     "admin",
+		DefaultPassword: "admin123",
 		Metrics: Metrics{
 			Enabled: false,
 			Port:    8081,

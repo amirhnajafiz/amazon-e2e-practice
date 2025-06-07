@@ -1,27 +1,51 @@
 package database
 
-import "github.com/amirhnajafiz/aep/backend/pkg/models"
+import (
+	"time"
 
-func (db Database) GetAllUsers() ([]*models.User, error) {
-	var users []*models.User
+	"github.com/amirhnajafiz/aep/backend/pkg/models"
+)
+
+func (db Database) GetAllUsers() ([]models.User, error) {
+	var users []models.User
+
+	if err := db.conn.Model(&users).Order("username ASC").Select(); err != nil {
+		return nil, err
+	}
 
 	return users, nil
 }
 
-func (db Database) CreateUser(user *models.User) (*models.User, error) {
-	// Here you would typically insert the user into the database
-	// and return the created user object, possibly with an ID assigned by the database.
-	return user, nil
+func (db Database) GetUserByUsername(username string) (*models.User, error) {
+	var user models.User
+
+	if err := db.conn.Model(&user).Where("username = ?", username).Select(); err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
 
-func (db Database) UpdateUser(user *models.User) (*models.User, error) {
-	// Here you would typically update the user in the database
-	// and return the updated user object.
-	return user, nil
+func (db Database) CreateUser(user *models.User) (int, error) {
+	if res, err := db.conn.Model(user).Insert(); err != nil {
+		return 0, err
+	} else {
+		return res.RowsAffected(), nil
+	}
 }
 
-func (db Database) DeleteUser(id string) error {
-	// Here you would typically delete the user from the database
-	// based on the provided ID.
-	return nil
+func (db Database) UpdateUser(user *models.User) (int, error) {
+	if res, err := db.conn.Model(user).Where("username = ?", user.Username).Update(); err != nil {
+		return 0, err
+	} else {
+		return res.RowsAffected(), nil
+	}
+}
+
+func (db Database) DeleteUser(id string) (int, error) {
+	if res, err := db.conn.Model(&models.User{}).Set("deleted_at", time.Now()).Where("username = ?", id).Update(); err != nil {
+		return 0, err
+	} else {
+		return res.RowsAffected(), nil
+	}
 }
