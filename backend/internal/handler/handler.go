@@ -38,6 +38,6 @@ func (h *Handler) RegisterEndpoints(app *echo.Echo) {
 	// register user management endpoints
 	users := api.Group("/users", middlewares.JWT(h.JWT), middlewares.RoleCheck("admin"))
 	users.GET("", routes.Users.ListUsers)
-	users.PUT("/:username", routes.Users.UpdateUser)
+	users.PUT("", routes.Users.UpdateUser)
 	users.DELETE("/:username", routes.Users.DeleteUser)
 }

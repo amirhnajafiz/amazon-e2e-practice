@@ -47,7 +47,7 @@ func (a *AuthGroup) Signup(c echo.Context) error {
 		a.Logger.Info("number of users created", zap.Int("count", count))
 	}
 
-	return nil
+	return c.JSON(201, map[string]string{"message": "User created successfully"})
 }
 
 func (a *AuthGroup) Signin(c echo.Context) error {
