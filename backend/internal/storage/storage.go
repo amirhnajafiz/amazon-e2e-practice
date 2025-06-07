@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/go-pg/pg/v10"
-	"github.com/go-pg/pg/v10/orm"
 )
 
 // NewConnection to the give Postgres database.
@@ -23,17 +22,4 @@ func NewConnection(uri string) (*pg.DB, error) {
 	}
 
 	return db, nil
-}
-
-// CreateTable creates tables for the given models in the database.
-func CreateTables(db *pg.DB, models []interface{}) error {
-	for _, model := range models {
-		if err := db.Model(model).CreateTable(&orm.CreateTableOptions{
-			IfNotExists: true,
-		}); err != nil {
-			return fmt.Errorf("failed to create table: %v", err)
-		}
-	}
-
-	return nil
 }

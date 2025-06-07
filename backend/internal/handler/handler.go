@@ -1,19 +1,19 @@
 package handler
 
 import (
+	"github.com/amirhnajafiz/aep/backend/internal/database"
 	"github.com/amirhnajafiz/aep/backend/internal/handler/middlewares"
 	"github.com/amirhnajafiz/aep/backend/internal/handler/routes"
 	"github.com/amirhnajafiz/aep/backend/internal/telemetry/metrics"
 	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
 
-	"github.com/go-pg/pg/v10"
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 )
 
 // Handler struct contains the dependencies required for handling requests.
 type Handler struct {
-	DB      *pg.DB
+	DB      *database.Database
 	JWT     *jwt.Auth
 	Logger  *zap.Logger
 	Metrics *metrics.Metrics

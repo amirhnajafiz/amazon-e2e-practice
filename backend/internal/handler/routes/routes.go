@@ -1,7 +1,8 @@
 package routes
 
 import (
-	"github.com/go-pg/pg/v10"
+	"github.com/amirhnajafiz/aep/backend/internal/database"
+
 	"go.uber.org/zap"
 )
 
@@ -13,7 +14,7 @@ type Routes struct {
 }
 
 // NewRoutes initializes and returns a new Routes instance with its sub-groups.
-func NewRoutes(logr *zap.Logger, db *pg.DB) *Routes {
+func NewRoutes(logr *zap.Logger, db *database.Database) *Routes {
 	return &Routes{
 		Auth: &AuthGroup{
 			DB:     db,

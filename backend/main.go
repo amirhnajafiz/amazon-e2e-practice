@@ -4,12 +4,12 @@ import (
 	"fmt"
 
 	"github.com/amirhnajafiz/aep/backend/internal/configs"
+	"github.com/amirhnajafiz/aep/backend/internal/database"
 	"github.com/amirhnajafiz/aep/backend/internal/handler"
 	"github.com/amirhnajafiz/aep/backend/internal/storage"
 	"github.com/amirhnajafiz/aep/backend/internal/telemetry/logger"
 	"github.com/amirhnajafiz/aep/backend/internal/telemetry/metrics"
 	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
-	"github.com/amirhnajafiz/aep/backend/pkg/models"
 
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
@@ -22,19 +22,16 @@ func main() {
 	// initialize logger
 	logr := logger.NewLogger(cfg.Logger.Level)
 
-	// open database connection
-	db, err := storage.NewConnection(cfg.Storage.URI())
+	// open storage connection
+	stg, err := storage.NewConnection(cfg.Storage.URI())
 	if err != nil {
 		logr.Fatal("failed to connect to database", zap.Error(err))
 	}
 
-	// create the tables in the database
-	interfaces := []interface{}{
-		&models.User{},
-		&models.Role{},
-	}
-	if err := storage.CreateTables(db, interfaces); err != nil {
-		logr.Fatal("failed to create tables", zap.Error(err))
+	// create a new database instance
+	db, err := database.NewDatabase(stg)
+	if err != nil {
+		logr.Fatal("failed to initialize database", zap.Error(err))
 	}
 
 	// initialize JWT auth

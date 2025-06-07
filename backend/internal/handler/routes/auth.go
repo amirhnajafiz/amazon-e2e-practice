@@ -1,14 +1,15 @@
 package routes
 
 import (
-	"github.com/go-pg/pg/v10"
+	"github.com/amirhnajafiz/aep/backend/internal/database"
+
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
 )
 
 // AuthGroup handles authentication-related routes.
 type AuthGroup struct {
-	DB     *pg.DB
+	DB     *database.Database
 	Logger *zap.Logger
 }
 
