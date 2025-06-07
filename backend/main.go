@@ -9,6 +9,7 @@ import (
 	"github.com/amirhnajafiz/aep/backend/internal/telemetry/logger"
 	"github.com/amirhnajafiz/aep/backend/internal/telemetry/metrics"
 	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
+	"github.com/amirhnajafiz/aep/backend/pkg/models"
 
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
@@ -25,6 +26,15 @@ func main() {
 	db, err := storage.NewConnection(cfg.Storage.URI())
 	if err != nil {
 		logr.Fatal("failed to connect to database", zap.Error(err))
+	}
+
+	// create the tables in the database
+	interfaces := []interface{}{
+		&models.User{},
+		&models.Role{},
+	}
+	if err := storage.CreateTables(db, interfaces); err != nil {
+		logr.Fatal("failed to create tables", zap.Error(err))
 	}
 
 	// initialize JWT auth
