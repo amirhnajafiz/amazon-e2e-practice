@@ -22,7 +22,7 @@ type Handler struct {
 // RegisterEndpoints registers the API endpoints with the Echo framework.
 func (h *Handler) RegisterEndpoints(app *echo.Echo) {
 	// create a new routes instance
-	routes := routes.NewRoutes(h.Logger, h.DB)
+	routes := routes.NewRoutes(h.Logger, h.DB, h.JWT)
 
 	// register endpoints
 	app.GET("/health", routes.Health.HealthCheck)

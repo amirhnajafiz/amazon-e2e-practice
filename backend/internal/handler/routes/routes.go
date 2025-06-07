@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/amirhnajafiz/aep/backend/internal/database"
+	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
 
 	"go.uber.org/zap"
 )
@@ -14,10 +15,11 @@ type Routes struct {
 }
 
 // NewRoutes initializes and returns a new Routes instance with its sub-groups.
-func NewRoutes(logr *zap.Logger, db *database.Database) *Routes {
+func NewRoutes(logr *zap.Logger, db *database.Database, j *jwt.Auth) *Routes {
 	return &Routes{
 		Auth: &AuthGroup{
 			DB:     db,
+			JWT:    j,
 			Logger: logr.Named("auth"),
 		},
 		Health: &HealthGroup{},
