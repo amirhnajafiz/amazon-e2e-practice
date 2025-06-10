@@ -3,15 +3,10 @@ package configs
 // Default returns the default configuration.
 func Default() Config {
 	return Config{
-		Port:            8080,
-		DefaultUser:     "admin",
-		DefaultPassword: "admin123",
+		Port: 8080,
 		JWT: JWT{
 			PrivateKey: "secret",
 			ExpireTime: 30, // in miutes
-		},
-		Logger: Logger{
-			Level: "debug",
 		},
 		Storage: Storage{
 			Port:     5432,

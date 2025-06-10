@@ -10,11 +10,6 @@ type JWT struct {
 	ExpireTime int    `koanf:"expire_time"`
 }
 
-// Logger configuration for zap logger.
-type Logger struct {
-	Level string `koanf:"level"`
-}
-
 // Storage configuration for PostgreSQL database.
 type Storage struct {
 	Host     string `koanf:"host"`
