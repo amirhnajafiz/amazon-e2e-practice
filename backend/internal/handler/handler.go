@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/amirhnajafiz/aep/backend/internal/database"
+	"github.com/amirhnajafiz/aep/backend/internal/handler/middlewares"
 	"github.com/amirhnajafiz/aep/backend/internal/handler/routes"
 	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
 
@@ -23,11 +24,12 @@ func (h Handler) RegisterEndpoints(app *echo.Echo) *echo.Echo {
 	app.GET("/health", routes.Health.HealthCheck)
 
 	// create a new API group with metrics middleware
-	api := app.Group("/api")
+	api := app.Group("/api", middlewares.Log())
 
 	// register authentication endpoints
 	api.POST("/signin", routes.Auth.Signin)
 	api.POST("/signup", routes.Auth.Signup)
+	api.POST("/validate", routes.Auth.TokenCheck, middlewares.JWT(h.JWT))
 
 	return app
 }

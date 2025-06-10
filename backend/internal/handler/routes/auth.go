@@ -77,3 +77,8 @@ func (a *AuthGroup) Signin(c echo.Context) error {
 
 	return c.JSON(200, map[string]string{"message": "Signin successful", "token": token})
 }
+
+// TokenCheck checks the validity of the JWT token.
+func (a *AuthGroup) TokenCheck(c echo.Context) error {
+	return c.JSON(200, map[string]string{"message": "Token is valid", "username": c.Get("user").(string)})
+}
