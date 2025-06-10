@@ -72,7 +72,7 @@ func (u *UsersGroup) UpdateUser(c echo.Context) error {
 		u.Logger.Error("failed to update user", zap.Error(err))
 		return c.JSON(500, map[string]string{"error": "Failed to update user"})
 	} else {
-		u.Logger.Info("number of users updated", zap.Int("count", count))
+		u.Logger.Info("number of users updated", zap.Int64("count", count))
 	}
 
 	return c.JSON(201, map[string]string{"message": "User updated successfully"})
@@ -91,7 +91,7 @@ func (u *UsersGroup) DeleteUser(c echo.Context) error {
 		u.Logger.Error("failed to delete user", zap.Error(err))
 		return c.JSON(500, map[string]string{"error": "Failed to delete user"})
 	} else {
-		u.Logger.Info("number of users deleted", zap.Int("count", count))
+		u.Logger.Info("number of users deleted", zap.Int64("count", count))
 	}
 
 	return c.JSON(201, map[string]string{"message": "User deleted successfully"})

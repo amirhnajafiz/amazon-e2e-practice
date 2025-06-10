@@ -44,7 +44,7 @@ func (a *AuthGroup) Signup(c echo.Context) error {
 		a.Logger.Error("failed to create user", zap.Error(err))
 		return c.JSON(500, map[string]string{"error": "Failed to create user"})
 	} else {
-		a.Logger.Info("number of users created", zap.Int("count", count))
+		a.Logger.Info("number of users created", zap.Int64("count", count))
 	}
 
 	return c.JSON(201, map[string]string{"message": "User created successfully"})
