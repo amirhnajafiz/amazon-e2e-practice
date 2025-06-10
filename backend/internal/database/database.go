@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/amirhnajafiz/aep/backend/pkg/models"
+	"github.com/amirhnajafiz/aep/backend/internal/models"
 
 	"github.com/uptrace/bun"
 )

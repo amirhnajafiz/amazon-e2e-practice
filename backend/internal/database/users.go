@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/amirhnajafiz/aep/backend/pkg/models"
+	"github.com/amirhnajafiz/aep/backend/internal/models"
 )
 
 func (db Database) GetUserByUsername(username string) (*models.User, error) {

@@ -3,9 +3,9 @@ package routes
 import (
 	"github.com/amirhnajafiz/aep/backend/internal/database"
 	"github.com/amirhnajafiz/aep/backend/internal/handler/requests"
+	"github.com/amirhnajafiz/aep/backend/internal/models"
 	"github.com/amirhnajafiz/aep/backend/pkg/hashing"
 	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
-	"github.com/amirhnajafiz/aep/backend/pkg/models"
 
 	"github.com/labstack/echo/v4"
 )
