@@ -27,7 +27,7 @@ func New(pk string, epx int) *Auth {
 }
 
 // GenerateJWT creates a new JWT token.
-func (a *Auth) GenerateJWT(username string, role string) (string, error) {
+func (a *Auth) GenerateJWT(username string) (string, error) {
 	// create a new token
 	token := jwt.New(jwt.SigningMethodHS256)
 
@@ -35,7 +35,6 @@ func (a *Auth) GenerateJWT(username string, role string) (string, error) {
 	claims := token.Claims.(jwt.MapClaims)
 
 	claims["username"] = username
-	claims["role"] = role
 	claims["exp"] = time.Now().Add(time.Minute * time.Duration(a.expire)).Unix()
 	claims["authorized"] = true
 
@@ -49,7 +48,7 @@ func (a *Auth) GenerateJWT(username string, role string) (string, error) {
 }
 
 // ParseJWT gets a token string and extracts the data.
-func (a *Auth) ParseJWT(tokenString string) (string, string, error) {
+func (a *Auth) ParseJWT(tokenString string) (string, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return "", errSigningMethod
@@ -58,16 +57,15 @@ func (a *Auth) ParseJWT(tokenString string) (string, string, error) {
 		return []byte(a.key), nil
 	})
 	if err != nil {
-		return "", "", err
+		return "", err
 	}
 
 	// taking out claims
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		key := claims["username"].(string)
-		role := claims["role"].(string)
 
-		return key, role, nil
+		return key, nil
 	}
 
-	return "", "", errInvalidToken
+	return "", errInvalidToken
 }

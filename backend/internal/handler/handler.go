@@ -2,7 +2,6 @@ package handler
 
 import (
 	"github.com/amirhnajafiz/aep/backend/internal/database"
-	"github.com/amirhnajafiz/aep/backend/internal/handler/middlewares"
 	"github.com/amirhnajafiz/aep/backend/internal/handler/routes"
 	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
 
@@ -29,12 +28,6 @@ func (h Handler) RegisterEndpoints(app *echo.Echo) *echo.Echo {
 	// register authentication endpoints
 	api.POST("/signin", routes.Auth.Signin)
 	api.POST("/signup", routes.Auth.Signup)
-
-	// register user management endpoints
-	users := api.Group("/users", middlewares.JWT(h.JWT), middlewares.RoleCheck("admin"))
-	users.GET("", routes.Users.ListUsers)
-	users.PUT("", routes.Users.UpdateUser)
-	users.DELETE("/:username", routes.Users.DeleteUser)
 
 	return app
 }

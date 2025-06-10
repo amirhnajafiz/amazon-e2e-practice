@@ -70,7 +70,7 @@ func (a *AuthGroup) Signin(c echo.Context) error {
 	}
 
 	// build the JWT token
-	token, err := a.JWT.GenerateJWT(user.Username, user.Role)
+	token, err := a.JWT.GenerateJWT(user.Username)
 	if err != nil {
 		return c.JSON(500, map[string]string{"error": "Failed to generate JWT"})
 	}

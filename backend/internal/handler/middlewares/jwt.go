@@ -19,14 +19,13 @@ func JWT(auth *jwt.Auth) echo.MiddlewareFunc {
 			}
 
 			// validate the JWT token
-			user, role, err := auth.ParseJWT(token)
+			user, err := auth.ParseJWT(token)
 			if err != nil {
 				return echo.NewHTTPError(http.StatusUnauthorized, "invalid JWT token: "+err.Error())
 			}
 
 			// store user and role in the context for later use
 			c.Set("user", user)
-			c.Set("role", role)
 
 			// croceed to the next handler if the token is valid
 			return next(c)

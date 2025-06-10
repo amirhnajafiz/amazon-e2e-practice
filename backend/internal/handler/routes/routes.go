@@ -9,7 +9,6 @@ import (
 type Routes struct {
 	Auth   *AuthGroup
 	Health *HealthGroup
-	Users  *UsersGroup
 }
 
 // NewRoutes initializes and returns a new Routes instance with its sub-groups.
@@ -20,8 +19,5 @@ func NewRoutes(db *database.Database, j *jwt.Auth) *Routes {
 			JWT: j,
 		},
 		Health: &HealthGroup{},
-		Users: &UsersGroup{
-			DB: db,
-		},
 	}
 }
