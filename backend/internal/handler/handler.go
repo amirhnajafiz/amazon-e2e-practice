@@ -27,9 +27,9 @@ func (h Handler) RegisterEndpoints(app *echo.Echo) *echo.Echo {
 	api := app.Group("/api", middlewares.Log())
 
 	// register authentication endpoints
-	api.POST("/signin", routes.Auth.Signin)
-	api.POST("/signup", routes.Auth.Signup)
-	api.POST("/validate", routes.Auth.TokenCheck, middlewares.JWT(h.JWT))
+	api.POST("", routes.Auth.Signin)
+	api.PUT("", routes.Auth.Signup)
+	api.GET("", routes.Auth.TokenCheck, middlewares.JWT(h.JWT))
 
 	return app
 }
