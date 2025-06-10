@@ -20,10 +20,10 @@ func Default() Config {
 		Storage: Storage{
 			Port:     5432,
 			Host:     "127.0.0.1",
-			User:     "user",
+			User:     "root",
 			Pass:     "password",
-			Database: "caaas-db",
-			SSL:      false,
+			Database: "db",
+			SSL:      "disable",
 		},
 	}
 }

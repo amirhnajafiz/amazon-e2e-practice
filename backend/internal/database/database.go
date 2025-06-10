@@ -1,17 +1,17 @@
 package database
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/amirhnajafiz/aep/backend/pkg/models"
 
-	"github.com/go-pg/pg/v10"
-	"github.com/go-pg/pg/v10/orm"
+	"github.com/uptrace/bun"
 )
 
 // Database struct holds the database connection and provides methods to interact with it.
 type Database struct {
-	conn *pg.DB
+	conn *bun.DB
 }
 
 // NewDatabase initializes a new Database instance and creates the necessary tables if they do not exist.
@@ -27,10 +27,8 @@ func NewDatabase(uri string) (*Database, error) {
 		&models.User{},
 	}
 	for _, model := range interfaces {
-		if err := db.Model(model).CreateTable(&orm.CreateTableOptions{
-			IfNotExists: true,
-		}); err != nil {
-			return nil, fmt.Errorf("failed to create table: %v", err)
+		if _, err := db.NewCreateTable().Model(model).IfNotExists().Exec(context.Background()); err != nil {
+			return nil, fmt.Errorf("failed to create table for model %T: %v", model, err)
 		}
 	}
 

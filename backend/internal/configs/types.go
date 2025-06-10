@@ -28,9 +28,9 @@ type Storage struct {
 	User     string `koanf:"user"`
 	Pass     string `koanf:"pass"`
 	Database string `koanf:"database"`
-	SSL      bool   `koanf:"ssl"`
+	SSL      string `koanf:"ssl"`
 }
 
 func (s Storage) URI() string {
-	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%t", s.User, s.Pass, s.Host, s.Port, s.Database, s.SSL)
+	return fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%s", s.User, s.Pass, s.Host, s.Port, s.Database, s.SSL)
 }
