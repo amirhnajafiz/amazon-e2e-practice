@@ -16,7 +16,7 @@ type Handler struct {
 }
 
 // RegisterEndpoints registers the API endpoints with the Echo framework.
-func (h *Handler) RegisterEndpoints(app *echo.Echo) {
+func (h Handler) RegisterEndpoints(app *echo.Echo) *echo.Echo {
 	// create a new routes instance
 	routes := routes.NewRoutes(h.DB, h.JWT)
 
@@ -27,13 +27,14 @@ func (h *Handler) RegisterEndpoints(app *echo.Echo) {
 	api := app.Group("/api")
 
 	// register authentication endpoints
-	auth := api.Group("/auth")
-	auth.POST("/signin", routes.Auth.Signin)
-	auth.POST("/signup", routes.Auth.Signup)
+	api.POST("/signin", routes.Auth.Signin)
+	api.POST("/signup", routes.Auth.Signup)
 
 	// register user management endpoints
 	users := api.Group("/users", middlewares.JWT(h.JWT), middlewares.RoleCheck("admin"))
 	users.GET("", routes.Users.ListUsers)
 	users.PUT("", routes.Users.UpdateUser)
 	users.DELETE("/:username", routes.Users.DeleteUser)
+
+	return app
 }

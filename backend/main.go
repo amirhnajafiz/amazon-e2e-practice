@@ -23,21 +23,14 @@ func main() {
 		log.Fatal("failed to initialize database", err)
 	}
 
-	// initialize handler
-	hd := handler.Handler{
+	// create a new Echo instance and register endpoints
+	app := handler.Handler{
 		DB:  db,
 		JWT: jwt.New(cfg.JWT.PrivateKey, cfg.JWT.ExpireTime),
-	}
-
-	// create a new Echo instance
-	app := echo.New()
-
-	// register endpoints
-	hd.RegisterEndpoints(app)
-
-	log.Printf("server is running on port %d\n", cfg.Port)
+	}.RegisterEndpoints(echo.New())
 
 	// start the server
+	log.Printf("server is running on port %d\n", cfg.Port)
 	if err := app.Start(fmt.Sprintf(":%d", cfg.Port)); err != nil {
 		log.Fatal("failed to start server", zap.Error(err))
 	}
