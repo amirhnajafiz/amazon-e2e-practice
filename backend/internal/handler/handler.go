@@ -32,8 +32,8 @@ func (h *Handler) RegisterEndpoints(app *echo.Echo) {
 
 	// register authentication endpoints
 	auth := api.Group("/auth")
-	auth.POST("/auth/signin", routes.Auth.Signin)
-	auth.POST("/auth/signup", routes.Auth.Signup)
+	auth.POST("/signin", routes.Auth.Signin)
+	auth.POST("/signup", routes.Auth.Signup)
 
 	// register user management endpoints
 	users := api.Group("/users", middlewares.JWT(h.JWT), middlewares.RoleCheck("admin"))

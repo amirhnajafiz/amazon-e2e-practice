@@ -20,9 +20,9 @@ func Default() Config {
 		Storage: Storage{
 			Port:     5432,
 			Host:     "127.0.0.1",
-			User:     "root",
+			User:     "postgres",
 			Pass:     "password",
-			Database: "db",
+			Database: "postgres",
 			SSL:      "disable",
 		},
 	}

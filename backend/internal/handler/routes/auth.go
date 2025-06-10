@@ -27,7 +27,7 @@ func (a *AuthGroup) Signup(c echo.Context) error {
 	}
 
 	// validate the request
-	if err := c.Validate(&req); err != nil {
+	if err := req.Validate(); err != nil {
 		a.Logger.Warn("validation failed", zap.Error(err))
 		return c.JSON(400, map[string]string{"error": "Validation failed"})
 	}
@@ -59,7 +59,7 @@ func (a *AuthGroup) Signin(c echo.Context) error {
 	}
 
 	// validate the request
-	if err := c.Validate(&req); err != nil {
+	if err := req.Validate(); err != nil {
 		a.Logger.Warn("validation failed", zap.Error(err))
 		return c.JSON(400, map[string]string{"error": "Validation failed"})
 	}

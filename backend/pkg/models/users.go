@@ -4,10 +4,11 @@ import "time"
 
 // Each user has a unique username and a password.
 type User struct {
-	Username  string    `pg:"username,unique"`
-	Password  string    `pg:"password"`
-	Role      string    `pg:"role,default:'user'"`
-	CreatedAt time.Time `pg:"created_at,default:now()"`
-	UpdatedAt time.Time `pg:"updated_at,default:now()"`
-	DeletedAt time.Time `pg:"deleted_at"`
+	ID        int64     `bun:"id,pk,autoincrement"`
+	Username  string    `bun:"username,unique"`
+	Password  string    `bun:"password"`
+	Role      string    `bun:"role,default:'user'"`
+	CreatedAt time.Time `bun:"created_at,default:current_timestamp"`
+	UpdatedAt time.Time `bun:"updated_at,default:current_timestamp"`
+	DeletedAt time.Time `bun:"deleted_at,default:null"`
 }
