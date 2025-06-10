@@ -6,10 +6,6 @@ func Default() Config {
 		Port:            8080,
 		DefaultUser:     "admin",
 		DefaultPassword: "admin123",
-		Metrics: Metrics{
-			Enabled: false,
-			Port:    8081,
-		},
 		JWT: JWT{
 			PrivateKey: "secret",
 			ExpireTime: 30, // in miutes

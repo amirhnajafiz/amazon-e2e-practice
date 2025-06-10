@@ -6,8 +6,7 @@ import (
 	"github.com/amirhnajafiz/aep/backend/internal/configs"
 	"github.com/amirhnajafiz/aep/backend/internal/database"
 	"github.com/amirhnajafiz/aep/backend/internal/handler"
-	"github.com/amirhnajafiz/aep/backend/internal/telemetry/logger"
-	"github.com/amirhnajafiz/aep/backend/internal/telemetry/metrics"
+	"github.com/amirhnajafiz/aep/backend/internal/logger"
 	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
 
 	"github.com/labstack/echo/v4"
@@ -27,18 +26,11 @@ func main() {
 		logr.Fatal("failed to initialize database", zap.Error(err))
 	}
 
-	// start metrics server if enabled
-	if cfg.Metrics.Enabled {
-		logr.Info("metrics are enabled", zap.Int("port", cfg.Metrics.Port))
-		metrics.StartServer(cfg.Metrics.Port)
-	}
-
 	// initialize handler
 	hd := handler.Handler{
-		DB:      db,
-		JWT:     jwt.New(cfg.JWT.PrivateKey, cfg.JWT.ExpireTime),
-		Logger:  logr,
-		Metrics: metrics.NewMetrics(),
+		DB:     db,
+		JWT:    jwt.New(cfg.JWT.PrivateKey, cfg.JWT.ExpireTime),
+		Logger: logr,
 	}
 
 	// create a new Echo instance

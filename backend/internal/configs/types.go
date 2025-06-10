@@ -15,12 +15,6 @@ type Logger struct {
 	Level string `koanf:"level"`
 }
 
-// Metrics configuration for Prometheus metrics.
-type Metrics struct {
-	Enabled bool `koanf:"enabled"`
-	Port    int  `koanf:"port"`
-}
-
 // Storage configuration for PostgreSQL database.
 type Storage struct {
 	Host     string `koanf:"host"`

@@ -21,7 +21,6 @@ type Config struct {
 	Port            int     `koanf:"int"`
 	DefaultUser     string  `koanf:"default_user"`
 	DefaultPassword string  `koanf:"default_password"`
-	Metrics         Metrics `koanf:"metrics"`
 	JWT             JWT     `koanf:"jwt"`
 	Logger          Logger  `koanf:"logger"`
 	Storage         Storage `koanf:"storage"`
