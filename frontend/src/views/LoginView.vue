@@ -1,115 +1,121 @@
 <template>
-    <div class="login-container">
-        <form @submit.prevent="handleLogin" class="login-form">
-            <h2>Login</h2>
-            <div class="form-group">
-                <label for="user">User</label>
-                <input
-                    id="user"
-                    v-model="user"
-                    type="text"
-                    required
-                    autocomplete="admin"
-                />
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input
-                    id="password"
-                    v-model="password"
-                    type="password"
-                    required
-                    autocomplete="current-password"
-                />
-            </div>
-            <button type="submit" :disabled="loading">
-                {{ loading ? 'Logging in...' : 'Login' }}
-            </button>
-            <p v-if="error" class="error">{{ error }}</p>
-        </form>
+  <div class="auth-container">
+    <h1 style="text-align: center; margin-bottom: 40px;">Authenticator</h1>
+    <div class="form-toggle">
+      <button :class="{ active: isLogin }" @click="isLogin = true">Login</button>
+      <button :class="{ active: !isLogin }" @click="isLogin = false">Register</button>
     </div>
+    <form @submit.prevent="handleSubmit">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          id="username"
+          v-model="form.username"
+          type="text"
+          :placeholder="isLogin ? 'Enter your username ...' : 'Choose a username ...'"
+          required
+          autocomplete="username"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          v-model="form.password"
+          :placeholder="isLogin ? 'Enter your password ...' : 'Create a password ...'"
+          type="password"
+          required
+          autocomplete="current-password"
+        />
+      </div>
+      <button type="submit">{{ isLogin ? 'Login' : 'Register' }}</button>
+    </form>
+    <div v-if="message" class="message">{{ message }}</div>
+  </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
-const user = ref('')
-const password = ref('')
-const loading = ref(false)
-const error = ref('')
+const isLogin = ref(true)
+const form = ref({
+  username: '',
+  password: ''
+})
+const message = ref('')
 
-const handleLogin = async () => {
-    loading.value = true
-    error.value = ''
-    try {
-        // Replace with your login API call
-        await fakeLogin(user.value, password.value)
-        // Redirect or emit success event here
-    } catch (e) {
-        error.value = 'Invalid username or password.'
-    } finally {
-        loading.value = false
-    }
-}
-
-// Mock login function, replace with real API call
-function fakeLogin(user, password) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (user === 'test@example.com' && password === 'password') {
-                resolve()
-            } else {
-                reject()
-            }
-        }, 1000)
-    })
+function handleSubmit() {
+  if (isLogin.value) {
+    // Replace with your login logic
+    message.value = `Logging in as ${form.value.username}`
+  } else {
+    // Replace with your register logic
+    message.value = `Registering user ${form.value.username}`
+  }
 }
 </script>
 
 <style scoped>
-.login-container {
-    max-width: 400px;
-    margin: 60px auto;
-    padding: 2rem;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+.auth-container {
+  width: 320px;
+  margin: 200px auto;
+  padding: 2rem;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
-.login-form h2 {
-    margin-bottom: 1.5rem;
-    text-align: center;
+.form-toggle {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.form-toggle button {
+  flex: 1;
+  padding: 0.5rem 0;
+  border: none;
+  background: #f0f0f0;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+.form-toggle .active {
+  background: #e53935;
+  color: #fff;
 }
 .form-group {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
+label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
 }
-.form-group input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 button[type="submit"] {
-    width: 100%;
-    padding: 0.75rem;
-    background: #232f3e;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
+  width: 100%;
+  padding: 0.75rem;
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.2s;
 }
-button[disabled] {
-    opacity: 0.6;
-    cursor: not-allowed;
+button[type="submit"]:hover {
+  background: #b71c1c;
 }
-.error {
-    color: #d32f2f;
-    margin-top: 1rem;
-    text-align: center;
+.message {
+  margin-top: 1rem;
+  color: #388e3c;
+  font-weight: 500;
+  text-align: center;
 }
 </style>
