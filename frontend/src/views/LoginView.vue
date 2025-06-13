@@ -46,11 +46,56 @@ const message = ref('')
 
 function handleSubmit() {
   if (isLogin.value) {
-    // Replace with your login logic
-    message.value = `Logging in as ${form.value.username}`
+    // HTTP POST request to login endpoint
+    fetch('/api', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: form.value.username,
+        password: form.value.password
+      })
+    }).then(response => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error('Login failed')
+      }
+    }).then(data => {
+      let token = data.token;
+      if (token) {
+        localStorage.setItem('token', token);
+        // redirect to home page or another view
+        window.location.href = '/home';
+      } else {
+        throw new Error('No token received');
+      }
+    }).catch(error => {
+      alert(error);
+    })
   } else {
-    // Replace with your register logic
-    message.value = `Registering user ${form.value.username}`
+    // HTTP Put request to register endpoint
+    fetch('/api', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: form.value.username,
+        password: form.value.password
+      })
+    }).then(response => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error('Registration failed');
+      }
+    }).then(_ => {
+      alert('Registration successful! You can now login.');
+    }).catch(error => {
+      alert(error);
+    })
   }
 }
 </script>

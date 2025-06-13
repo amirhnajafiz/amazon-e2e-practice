@@ -1,6 +1,8 @@
 <template>
   <main class="home-view">
-    <h1>Welcome</h1>
+    <h1>
+      {{ welcomeMessage }}
+    </h1>
     <p style="margin: 50px;">
       This is a simple D3.js chart example using Vue 3. Click the button below to randomize the data.
     </p>
@@ -21,6 +23,38 @@ let tooltip = null
 const width = 400
 const height = 200
 const margin = { top: 10, right: 20, bottom: 40, left: 40 } // Add margin for axes
+
+// --- JWT parsing and welcome message ---
+const welcomeMessage = ref('Welcome')
+
+function parseJwt(token) {
+  try {
+    const base64Url = token.split('.')[1]
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    )
+    return JSON.parse(jsonPayload)
+  } catch (e) {
+    return null
+  }
+}
+
+onMounted(() => {
+  // Read token from localStorage and update welcome message
+  const token = localStorage.getItem('token')
+  if (token) {
+    const payload = parseJwt(token)
+    if (payload && payload.username) {
+      welcomeMessage.value = `Welcome, ${payload.username}!`
+    }
+  }
+  drawChart()
+})
+// --- end JWT parsing and welcome message ---
 
 function drawChart() {
   if (!d3chart.value) return
@@ -106,10 +140,6 @@ function randomizeData() {
   data.value = Array.from({ length: 7 }, () => Math.floor(Math.random() * 100) + 5)
   drawChart()
 }
-
-onMounted(() => {
-  drawChart()
-})
 </script>
 
 <style scoped>
