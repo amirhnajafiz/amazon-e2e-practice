@@ -56,11 +56,12 @@ function handleSubmit() {
         username: form.value.username,
         password: form.value.password
       })
-    }).then(response => {
+    }).then(async response => {
       if (response.ok) {
         return response.json()
       } else {
-        throw new Error('Login failed')
+        const err = await response.json();
+        throw new Error(err.error || 'Login failed');
       }
     }).then(data => {
       let token = data.token;
@@ -72,7 +73,7 @@ function handleSubmit() {
         throw new Error('No token received');
       }
     }).catch(error => {
-      alert(error);
+      alert(error.message);
     })
   } else {
     // HTTP Put request to register endpoint
@@ -85,16 +86,17 @@ function handleSubmit() {
         username: form.value.username,
         password: form.value.password
       })
-    }).then(response => {
+    }).then(async response => {
       if (response.ok) {
         return response.json()
       } else {
-        throw new Error('Registration failed');
+        const err = await response.json();
+        throw new Error(err.error || 'Registration failed');
       }
     }).then(_ => {
       alert('Registration successful! You can now login.');
     }).catch(error => {
-      alert(error);
+      alert(error.message);
     })
   }
 }

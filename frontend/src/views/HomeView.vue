@@ -70,6 +70,14 @@ function drawChart() {
     .append('g')
     .attr('transform', `translate(${margin.left},${margin.top})`)
 
+  // Add light gray background inside axes
+  svg.append('rect')
+    .attr('x', 0)
+    .attr('y', 0)
+    .attr('width', width)
+    .attr('height', height)
+    .attr('fill', '#f5f5f5') // light gray
+
   // X scale
   const x = d3
     .scaleBand()
@@ -81,7 +89,7 @@ function drawChart() {
   const y = d3
     .scaleLinear()
     .domain([0, d3.max(data.value) || 0])
-    .range([height, 0])
+    .range([height, 0]).nice()
 
   // X axis
   svg
@@ -113,10 +121,11 @@ function drawChart() {
 
   // Bars
   svg
-    .selectAll('rect')
+    .selectAll('rect.bar')
     .data(data.value)
     .enter()
     .append('rect')
+    .attr('class', 'bar')
     .attr('x', (d, i) => x(i))
     .attr('y', d => y(d))
     .attr('width', x.bandwidth())
@@ -162,7 +171,7 @@ function randomizeData() {
 }
 
 .btn {
-  margin-top: 5%;
+  margin-top: 100px;
   padding: 0.5rem 1rem;
   background-color: #ff3f3b;
   color: white;

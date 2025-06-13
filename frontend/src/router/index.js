@@ -21,14 +21,32 @@ const router = createRouter({
 
 // Navigation guard to check for authentication
 router.beforeEach((to, _, next) => {
-  const isAuthenticated = !!localStorage.getItem('token'); // check if token exists in localStorage
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    const token = localStorage.getItem('token');
+    const isAuthenticated = !!token;
 
-  if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
-    alert('You must be logged in to access this page.'); // alert user if not authenticated
-    next({ name: 'root' }); // redirect to login if not authenticated
-  } else {
-    next(); // proceed to the route
+    if (token) {
+      try {
+        const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+        const expiryTime = tokenPayload.exp * 1000; // convert to milliseconds
+        if (Date.now() > expiryTime) {
+          localStorage.removeItem('token');
+          alert('Your session has expired. Please log in again.');
+          return next({ name: 'root' });
+        }
+      } catch (e) {
+        localStorage.removeItem('token');
+        alert('Invalid session. Please log in again.');
+        return next({ name: 'root' });
+      }
+    }
+
+    if (!isAuthenticated) {
+      alert('You must be logged in to access this page.');
+      return next({ name: 'root' });
+    }
   }
+  next();
 });
 
 export default router

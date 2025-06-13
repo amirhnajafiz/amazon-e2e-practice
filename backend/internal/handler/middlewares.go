@@ -20,10 +20,8 @@ func (h Handler) Log() echo.MiddlewareFunc {
 			status := c.Response().Status
 			reqBodySize := c.Request().ContentLength
 
-			log.Printf("method: %s, status: %d, path: %s, request size: %d\n", method, status, path, reqBodySize)
-			for header := range c.Request().Header {
-				log.Printf("header: %s: %s\n", header, c.Request().Header.Get(header))
-			}
+			log.Printf("[REQ] method: %s, status: %d, path: %s, request size: %d\n", method, status, path, reqBodySize)
+			log.Printf("[HED] headers: %v\n", c.Request().Header)
 
 			return nil
 		}
