@@ -18,8 +18,12 @@ func (h Handler) Log() echo.MiddlewareFunc {
 			method := c.Request().Method
 			path := c.Request().URL.Path
 			status := c.Response().Status
+			reqBodySize := c.Request().ContentLength
 
-			log.Printf("method: %s, status: %d, path: %s\n", method, status, path)
+			log.Printf("method: %s, status: %d, path: %s, request size: %d\n", method, status, path, reqBodySize)
+			for header := range c.Request().Header {
+				log.Printf("header: %s: %s\n", header, c.Request().Header.Get(header))
+			}
 
 			return nil
 		}
