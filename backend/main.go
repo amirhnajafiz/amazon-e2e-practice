@@ -7,7 +7,6 @@ import (
 	"github.com/amirhnajafiz/aep/backend/internal/configs"
 	"github.com/amirhnajafiz/aep/backend/internal/database"
 	"github.com/amirhnajafiz/aep/backend/internal/handler"
-	"github.com/amirhnajafiz/aep/backend/pkg/jwt"
 
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
@@ -25,8 +24,7 @@ func main() {
 
 	// create a new Echo instance and register endpoints
 	app := handler.Handler{
-		DB:  db,
-		JWT: jwt.New(cfg.JWT.PrivateKey, cfg.JWT.ExpireTime),
+		DB: db,
 	}.RegisterEndpoints(echo.New())
 
 	// start the server
