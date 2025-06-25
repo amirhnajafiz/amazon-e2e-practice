@@ -24,7 +24,8 @@ func NewDatabase(uri string) (*Database, error) {
 
 	// create the necessary tables if they do not exist
 	interfaces := []interface{}{
-		&models.User{},
+		&models.Session{},
+		&models.Url{},
 	}
 	for _, model := range interfaces {
 		if _, err := db.NewCreateTable().Model(model).IfNotExists().Exec(context.Background()); err != nil {
