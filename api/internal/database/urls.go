@@ -7,10 +7,11 @@ import (
 )
 
 // InsertUrl inserts a new URL into the database.
-func (db *Database) InsertUrl(address string, description string) error {
+func (db *Database) InsertUrl(short, address, description string) error {
 	ctx := context.Background()
 
 	_, err := db.conn.NewInsert().Model(&models.Url{
+		ShortenedID: short,
 		Address:     address,
 		Description: description,
 	}).Exec(ctx)
