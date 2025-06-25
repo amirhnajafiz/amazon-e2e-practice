@@ -39,7 +39,7 @@ func (db *Database) GetUrls() ([]*models.Url, error) {
 func (db *Database) ClearUrls() error {
 	ctx := context.Background()
 
-	_, err := db.conn.NewDelete().Model(&models.Url{}).Exec(ctx)
+	_, err := db.conn.NewDelete().Model(&models.Url{}).Where("1=1").Exec(ctx)
 	if err != nil {
 		return err
 	}

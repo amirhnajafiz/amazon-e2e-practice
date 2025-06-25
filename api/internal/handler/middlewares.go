@@ -21,7 +21,6 @@ func (h Handler) log() echo.MiddlewareFunc {
 			reqBodySize := c.Request().ContentLength
 
 			log.Printf("[REQ] method: %s, status: %d, path: %s, request size: %d\n", method, status, path, reqBodySize)
-			log.Printf("[HED] headers: %v\n", c.Request().Header)
 
 			return nil
 		}
