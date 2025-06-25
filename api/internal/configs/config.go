@@ -19,6 +19,7 @@ const (
 // Config stores the application parameters.
 type Config struct {
 	Port    int        `koanf:"int"`
+	Migrate bool       `koanf:"migrate"`
 	Storage Storage    `koanf:"storage"`
 	URLs    []URLEntry `koanf:"urls"`
 }

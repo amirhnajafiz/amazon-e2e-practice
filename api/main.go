@@ -44,8 +44,10 @@ func main() {
 	}.RegisterEndpoints(echo.New())
 
 	// initialize database entries with predefined URLs
-	if err := initEntries(db, cfg.URLs); err != nil {
-		log.Fatal("failed to initialize URL entries", zap.Error(err))
+	if cfg.Migrate {
+		if err := initEntries(db, cfg.URLs); err != nil {
+			log.Fatal("failed to initialize URL entries", zap.Error(err))
+		}
 	}
 
 	// start the server
