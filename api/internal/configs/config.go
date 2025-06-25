@@ -18,9 +18,9 @@ const (
 
 // Config stores the application parameters.
 type Config struct {
-	Port    int     `koanf:"int"`
-	JWT     JWT     `koanf:"jwt"`
-	Storage Storage `koanf:"storage"`
+	Port    int        `koanf:"int"`
+	Storage Storage    `koanf:"storage"`
+	URLs    []URLEntry `koanf:"urls"`
 }
 
 // Load returns the config struct from the given YAML file.

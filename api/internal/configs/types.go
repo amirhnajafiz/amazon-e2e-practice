@@ -4,10 +4,11 @@ import (
 	"fmt"
 )
 
-// JWT configuration for JSON Web Tokens.
-type JWT struct {
-	PrivateKey string `koanf:"private_key"`
-	ExpireTime int    `koanf:"expire_time"`
+// URLEntry represents a URL entry in the configuration.
+type URLEntry struct {
+	Name        string `koanf:"name"`
+	URL         string `koanf:"url"`
+	Description string `koanf:"description"`
 }
 
 // Storage configuration for PostgreSQL database.

@@ -4,10 +4,6 @@ package configs
 func Default() Config {
 	return Config{
 		Port: 8080,
-		JWT: JWT{
-			PrivateKey: "secret",
-			ExpireTime: 30, // in miutes
-		},
 		Storage: Storage{
 			Port:     5432,
 			Host:     "127.0.0.1",
@@ -16,5 +12,6 @@ func Default() Config {
 			Database: "postgres",
 			SSL:      "disable",
 		},
+		URLs: make([]URLEntry, 0),
 	}
 }
