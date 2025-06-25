@@ -33,6 +33,9 @@ go.work
 .idea/
 .vscode/
 
+# Configs
+api/config.yaml
+
 ### Vue ###
 # gitignore template for Vue.js projects
 # Recommended template: Node.gitignore

@@ -1,7 +1,12 @@
+# Ignore Docker-related files
 build/
 configs/
+config.yaml
 
+# Ignore development environment files
 .git
 .gitignore
 
+# Ignore documentation files
+docs/
 README.md
