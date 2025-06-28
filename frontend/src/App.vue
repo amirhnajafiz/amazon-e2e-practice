@@ -4,27 +4,36 @@ import { RouterView, RouterLink } from 'vue-router'
 
 <template>
   <nav>
-    <ul>
-      <li><RouterLink to="/" exact-active-class="active">Home</RouterLink></li>
-      <li><RouterLink to="/about" exact-active-class="active">About</RouterLink></li>
-    </ul>
-
-    <a href="https://github.com/amirhnajafiz/amazon-e2e-practice" target="_blank">
-      <i class="fa-brands fa-github" style="font-size: 1.5em;"></i>
-    </a>
+    <div class="nav-content">
+      <ul>
+        <li><RouterLink to="/" exact-active-class="active">Home</RouterLink></li>
+        <li><RouterLink to="/about" exact-active-class="active">About</RouterLink></li>
+      </ul>
+      <a href="https://github.com/amirhnajafiz/amazon-e2e-practice" target="_blank" class="github-link">
+        <i class="fa-brands fa-github" style="font-size: 1.5em;"></i>
+      </a>
+    </div>
   </nav>
   <RouterView />
 </template>
 
 <style>
 nav {
-  background-color: #f8f9fa;
   padding: 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 nav ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 nav li {
@@ -44,5 +53,10 @@ nav a:hover {
 nav a.active {
   font-weight: bold;
   color: #0056b3;
+}
+
+.github-link {
+  color: #333;
+  text-decoration: none;
 }
 </style>
