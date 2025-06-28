@@ -4,8 +4,8 @@ This system is the backend service of our practice. It is responsible for managi
 
 ## Endpoints
 
-| Path                   | Method                         |
-|:-------------------:|:----------------------------:|
-| `/api/urls`         | `GET`                             |
-| `/api/urls/:id`   | `PUT`                             |
-| `/api/stats`        | `GET`                             |
+| Path                | Method                         |
+|:-------------------:|:------------------------------:|
+| `/api/urls`         | `GET`                          |
+| `/api/urls/:id`     | `PUT`                          |
+| `/api/stats`        | `GET`                          |

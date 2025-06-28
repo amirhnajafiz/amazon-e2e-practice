@@ -19,9 +19,10 @@ import { RouterView, RouterLink } from 'vue-router'
 
 <style>
 nav {
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  padding: 5px;
+  background: linear-gradient(90deg, #ff6a00 0%, #ffb347 50%, #4fd1c5 100%);
+  border-bottom: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
 
 .nav-content {
@@ -43,20 +44,26 @@ nav li {
 
 nav a {
   text-decoration: none;
-  color: #007bff;
+  color: #fff;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
 }
 
-nav a:hover {
-  text-decoration: underline;
-}
-
+nav a:hover,
 nav a.active {
-  font-weight: bold;
-  color: #0056b3;
+  background: rgba(255,255,255,0.2);
+  color: #222;
 }
 
 .github-link {
-  color: #333;
+  color: #fff;
   text-decoration: none;
+  transition: color 0.2s;
+}
+
+.github-link:hover {
+  color: #222;
 }
 </style>
