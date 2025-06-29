@@ -17,7 +17,21 @@
       <li>Frontend: <b>Vue.js</b></li>
     </ul>
     <div class="about-divider"></div>
-    <h2>Top URLs (number of visits)</h2>
+
+    <!-- Range input for limit -->
+    <h2 style="margin-bottom: 20px;">Top URLs (number of visits)</h2>
+    <div class="slider-container">
+      <label for="limitRange">Show top: <b>{{ limit }}</b> URLs</label>
+      <input
+        id="limitRange"
+        type="range"
+        min="1"
+        max="9"
+        v-model="limit"
+        @input="fetchTopUrls"
+        class="custom-range"
+      />
+    </div>
     <ol>
       <li v-for="(url, index) in topUrls" :key="index">
         {{ url.title }} ({{ url.count }})
@@ -32,28 +46,37 @@ export default {
   data() {
     return {
       topUrls: [],
+      limit: 3,
     };
   },
   mounted() {
-    fetch('/api/stats?limit=3')
-      .then(response => response.json())
-      .then(data => {
-        data.forEach(element => {
-          fetch(`/api/urls/${element.ID}`)
-            .then(response => response.json())
-            .then(urlData => {
-              this.topUrls.push({
-                title: element.ShortenedID,
-                count: urlData.count,
-              });
-            });
+    this.fetchTopUrls();
+  },
+  methods: {
+    fetchTopUrls() {
+      fetch(`/api/stats?limit=${this.limit}`)
+        .then(response => response.json())
+        .then(data => {
+          // Fetch all URLs in parallel and wait for all to finish
+          return Promise.all(
+            data.map(element =>
+              fetch(`/api/urls/${element.ID}`)
+                .then(response => response.json())
+                .then(urlData => ({
+                  title: element.ShortenedID,
+                  count: urlData.count,
+                }))
+            )
+          );
+        })
+        .then(urls => {
+          // Sort and set once to avoid duplicates
+          this.topUrls = urls.sort((a, b) => b.count - a.count);
+        })
+        .catch(error => {
+          console.error('Error fetching URLs:', error);
         });
-
-        this.topUrls.sort((a, b) => b.count - a.count);
-      })
-      .catch(error => {
-        console.error('Error fetching URLs:', error);
-      });
+    }
   }
 };
 </script>
@@ -120,5 +143,90 @@ ol li {
 ol li::marker {
   color: #2563eb;
   font-weight: bold;
+}
+
+.slider-container {
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.custom-range {
+  -webkit-appearance: none;
+  width: 160px;
+  height: 24px;              /* Match thumb height for alignment */
+  background: transparent;   /* Transparent so only track shows */
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+}
+
+/* Track styles */
+.custom-range::-webkit-slider-runnable-track {
+  height: 8px;
+  margin-top: 8px;           /* Center track in input */
+  border-radius: 6px;
+  background: #e0e7ff;
+}
+.custom-range::-moz-range-track {
+  height: 8px;
+  border-radius: 6px;
+  background: #e0e7ff;
+}
+.custom-range::-ms-fill-lower,
+.custom-range::-ms-fill-upper {
+  height: 8px;
+  border-radius: 6px;
+  background: #e0e7ff;
+}
+
+/* Thumb styles */
+.custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  margin-top: -8px; /* Half of (thumb height - track height) to center */
+  border-radius: 50%;
+  background: #6366f1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px #0002;
+  border: 2px solid #fff;
+  transition: background 0.3s;
+}
+.custom-range::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #6366f1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px #0002;
+  border: 2px solid #fff;
+  transition: background 0.3s;
+}
+.custom-range::-ms-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #6366f1;
+  cursor: pointer;
+  box-shadow: 0 2px 6px #0002;
+  border: 2px solid #fff;
+  transition: background 0.3s;
+}
+
+/* Remove default outline and background for all browsers */
+.custom-range:focus {
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* Hide outline for Firefox */
+.custom-range::-moz-focus-outer {
+  border: 0;
 }
 </style>
