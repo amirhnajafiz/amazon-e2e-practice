@@ -20,7 +20,7 @@ func (h Handler) log() echo.MiddlewareFunc {
 			status := c.Response().Status
 			reqBodySize := c.Request().ContentLength
 
-			log.Printf("[REQ] method: %s, status: %d, path: %s, request size: %d\n", method, status, path, reqBodySize)
+			log.Printf("method: %s, status: %d, path: %s, request size: %d\n", method, status, path, reqBodySize)
 
 			return nil
 		}
