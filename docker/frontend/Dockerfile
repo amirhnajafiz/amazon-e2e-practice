@@ -1,19 +1,22 @@
-# Use an official Node.js image as the build environment
-FROM node:18-alpine AS builder
+FROM node:lts-alpine
 
+# install simple http server for serving static content
+RUN npm install -g http-server
+
+# make the 'app' folder the current working directory
 WORKDIR /app
 
+# copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./
+
+# install project dependencies
 RUN npm install
 
+# copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
+
+# build app for production with minification
 RUN npm run build
 
-# Use an Nginx image to serve the build
-FROM nginx:alpine
-
-COPY --from=builder /app/build /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8080
+CMD [ "http-server", "dist" ]
