@@ -13,10 +13,10 @@
       <li>Frontend: <b>Vue.js</b></li>
     </ul>
     <div class="about-divider"></div>
-    <h2>Top URLs</h2>
+    <h2>Top URLs (number of visits)</h2>
     <ol>
       <li v-for="(url, index) in topUrls" :key="index">
-        {{ url.title }}
+        {{ url.title }} ({{ url.count }})
       </li>
     </ol>
   </main>
@@ -27,28 +27,28 @@ export default {
   name: 'AboutView',
   data() {
     return {
-      topUrls: [
-        {
-          title: 'Hacker News',
-        },
-        {
-          title: 'TechCrunch',
-        },
-        {
-          title: 'The Verge',
-        },
-        {
-          title: 'Ars Technica',
-        },
-        {
-          title: 'Wired',
-        },
-        {
-          title: 'Engadget',
-        },
-      ],
+      topUrls: [],
     };
   },
+  mounted() {
+    fetch('/api/stats?limit=3')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(element => {
+          fetch(`/api/urls/${element.ID}`)
+            .then(response => response.json())
+            .then(urlData => {
+              this.topUrls.push({
+                title: element.ShortenedID,
+                count: urlData.count,
+              });
+            });
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching URLs:', error);
+      });
+  }
 };
 </script>
 
