@@ -6,11 +6,21 @@ import { RouterView, RouterLink } from 'vue-router'
   <nav>
     <div class="nav-content">
       <ul>
-        <li><RouterLink to="/" exact-active-class="active">Home</RouterLink></li>
-        <li><RouterLink to="/about" exact-active-class="active">About</RouterLink></li>
+      <li>
+        <RouterLink to="/" exact-active-class="active">
+        <i class="fa-solid fa-house" style="margin-right: 6px;"></i>
+        Home
+        </RouterLink>
+      </li>
+      <li>
+        <RouterLink to="/about" exact-active-class="active">
+        <i class="fa-solid fa-circle-info" style="margin-right: 6px;"></i>
+        About
+        </RouterLink>
+      </li>
       </ul>
       <a href="https://github.com/amirhnajafiz/amazon-e2e-practice" target="_blank" class="github-link">
-        <i class="fa-brands fa-github" style="font-size: 1.5em;"></i>
+      <i class="fa-brands fa-github" style="font-size: 1.5em;"></i>
       </a>
     </div>
   </nav>

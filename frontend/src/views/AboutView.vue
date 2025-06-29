@@ -5,6 +5,10 @@
       <span class="highlight">Amazon E2E practice project</span> featuring a database, backend, and frontend.
       Includes a <span class="highlight">URLs panel</span> for accessing useful IT news and blogs,
       along with <span class="highlight">statistics tracking</span> for these URLs.
+      This project is designed to help you practice end-to-end testing with a real-world application.
+      Along with infrastructure as code (IaC) using <span class="highlight">Terraform</span> and <span class="highlight">Ansible</span> for deployment.
+      The project is built with a focus on simplicity and ease of use, making it a great
+      starting point for those looking to learn about end-to-end testing and web development.
     </p>
     <div class="about-divider"></div>
     <ul>
@@ -44,6 +48,8 @@ export default {
               });
             });
         });
+
+        this.topUrls.sort((a, b) => b.count - a.count);
       })
       .catch(error => {
         console.error('Error fetching URLs:', error);
@@ -54,7 +60,7 @@ export default {
 
 <style scoped>
 main {
-  max-width: 800px;
+  max-width: 70%;
   margin: 40px auto;
   padding: 0 16px;
 }

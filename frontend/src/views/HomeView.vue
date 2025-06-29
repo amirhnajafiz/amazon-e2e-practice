@@ -129,8 +129,8 @@ export default {
 }
 
 .controls {
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   display: flex;
   align-items: center;
 }
