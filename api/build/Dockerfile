@@ -2,10 +2,9 @@
 FROM golang:1.22-alpine
 
 # don't change workdir
-WORKDIR /usr/share/caass
+WORKDIR /usr/share/api
 
 COPY internal/ internal/
-COPY pkg/ pkg/
 COPY main.go main.go
 
 COPY go.mod go.sum ./
