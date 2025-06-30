@@ -8,11 +8,12 @@ import (
 
 // Handler struct contains the dependencies required for handling requests.
 type Handler struct {
-	DB *database.Database
+	AdminKey string
+	DB       *database.Database
 }
 
 // RegisterEndpoints registers the API endpoints with the Echo framework.
-func (h Handler) RegisterEndpoints(key string, app *echo.Echo) *echo.Echo {
+func (h Handler) RegisterEndpoints(app *echo.Echo) *echo.Echo {
 	// create a new API group with metrics middleware
 	api := app.Group("/api", h.log("API"))
 
@@ -23,7 +24,7 @@ func (h Handler) RegisterEndpoints(key string, app *echo.Echo) *echo.Echo {
 	api.GET("/stats", h.getTopUrls)
 
 	// register the admin endpoints
-	admin := app.Group("/admin", h.admin(key), h.log("Admin"))
+	admin := app.Group("/admin", h.admin(), h.log("Admin"))
 
 	admin.POST("/urls", h.createUrl)
 	admin.DELETE("/urls/:url_id", h.deleteUrl)

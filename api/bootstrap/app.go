@@ -24,8 +24,9 @@ func SetupApp(
 
 	// create a new Echo instance and register endpoints
 	app := handler.Handler{
-		DB: db,
-	}.RegisterEndpoints(mig.AdminKey, echo.New())
+		AdminKey: mig.AdminKey,
+		DB:       db,
+	}.RegisterEndpoints(echo.New())
 
 	// start the server
 	log.Printf("server is running on port %d\n", port)
