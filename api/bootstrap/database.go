@@ -38,9 +38,10 @@ func SetupDatabase(
 		return fmt.Errorf("failed to clear sessions: %w", err)
 	}
 
+	// insert predefined URLs into the database
 	for _, url := range urls {
-		if err := db.InsertUrl(url.Name, url.URL, url.Description); err != nil {
-			return fmt.Errorf("failed to insert URL: %w", err)
+		if err := db.InsertUrl(url.ShortenedID, url.Address, url.Description); err != nil {
+			return fmt.Errorf("failed to insert URL (%s): %w", url.ShortenedID, err)
 		}
 	}
 
