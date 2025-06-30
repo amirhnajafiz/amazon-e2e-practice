@@ -55,6 +55,20 @@ func (db *Database) GetSessionsCountByUrlID(urlID int64) (int, error) {
 	return int(count), nil
 }
 
+// DeleteSessionByUrlID deletes all sessions associated with a specific URL ID.
+func (db *Database) DeleteSessionByUrlID(urlID int64) error {
+	ctx := context.Background()
+
+	_, err := db.conn.NewDelete().Model(&models.Session{}).
+		Where("url_id = ?", urlID).
+		Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // ClearSessions deletes all session records from the database.
 func (db *Database) ClearSessions() error {
 	ctx := context.Background()

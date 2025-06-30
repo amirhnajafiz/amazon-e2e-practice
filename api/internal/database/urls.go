@@ -22,6 +22,20 @@ func (db *Database) InsertUrl(short, address, description string) error {
 	return nil
 }
 
+// DeleteUrl deletes a URL from the database by its ID.
+func (db *Database) DeleteUrl(urlID int64) error {
+	ctx := context.Background()
+
+	_, err := db.conn.NewDelete().Model(&models.Url{}).
+		Where("id = ?", urlID).
+		Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // GetUrls retrieves all URLs from the database.
 func (db *Database) GetUrls() ([]*models.Url, error) {
 	ctx := context.Background()
