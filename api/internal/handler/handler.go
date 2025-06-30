@@ -23,7 +23,7 @@ func (h Handler) RegisterEndpoints(key string, app *echo.Echo) *echo.Echo {
 	api.GET("/stats", h.getTopUrls)
 
 	// register the admin endpoints
-	admin := app.Group("/admin", h.admin(key))
+	admin := app.Group("/admin", h.admin(key), h.log())
 
 	admin.POST("/urls", h.createUrl)
 	admin.DELETE("/urls/:url_id", h.deleteUrl)

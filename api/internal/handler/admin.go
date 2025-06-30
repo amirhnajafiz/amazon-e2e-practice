@@ -17,6 +17,11 @@ func (h Handler) createUrl(c echo.Context) error {
 		return c.String(400, "invalid request")
 	}
 
+	// validate required fields
+	if req.ShortenedID == "" || req.Address == "" {
+		return c.String(400, "shortened_id and address are required")
+	}
+
 	if err := h.DB.InsertUrl(req.ShortenedID, req.Address, req.Description); err != nil {
 		return c.String(500, "failed to insert URL")
 	}

@@ -2,6 +2,8 @@ package database
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 
 	"github.com/amirhnajafiz/aep/backend/internal/models"
 )
@@ -33,6 +35,10 @@ func (db *Database) GetLastMigration() (*models.Migration, error) {
 		Limit(1).
 		Scan(ctx)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
+
 		return nil, err
 	}
 

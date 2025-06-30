@@ -73,7 +73,7 @@ func (db *Database) DeleteSessionByUrlID(urlID int64) error {
 func (db *Database) ClearSessions() error {
 	ctx := context.Background()
 
-	_, err := db.conn.NewDelete().Model(&models.Session{}).Exec(ctx)
+	_, err := db.conn.NewDelete().Model(&models.Session{}).Where("1=1").Exec(ctx)
 	if err != nil {
 		return err
 	}
