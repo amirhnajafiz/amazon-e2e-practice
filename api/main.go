@@ -13,22 +13,41 @@ import (
 )
 
 // initEntries initializes the database with predefined URL entries from the configuration.
-func initEntries(db *database.Database, urls []configs.URLEntry) error {
+func initEntries(revision int, db *database.Database, key string, urls []configs.URLEntry) error {
+	// get the last migration entry
+	lastMigration, err := db.GetLastMigration()
+	if err != nil {
+		return fmt.Errorf("failed to get last migration: %w", err)
+	}
+
+	// check if the last migration revision matches the current revision
+	if lastMigration != nil && lastMigration.Revision >= int64(revision) {
+		log.Printf("database is already initialized with the latest migration (revision %d)\n", revision)
+		return nil
+	}
+
 	// clear existing URLs in the database
 	if err := db.ClearUrls(); err != nil {
-		return err
+		return fmt.Errorf("failed to clear URLs: %w", err)
 	}
 
 	// clear existing sessions in the database
 	if err := db.ClearSessions(); err != nil {
-		return err
+		return fmt.Errorf("failed to clear sessions: %w", err)
 	}
 
 	for _, url := range urls {
 		if err := db.InsertUrl(url.Name, url.URL, url.Description); err != nil {
-			return err
+			return fmt.Errorf("failed to insert URL: %w", err)
 		}
 	}
+
+	// insert the migration entry
+	if err := db.InsertMigration(int64(revision), key); err != nil {
+		return fmt.Errorf("failed to insert migration entry: %w", err)
+	}
+
+	log.Printf("database initialized with %d URLs and migration revision %d\n", len(urls), revision)
 
 	return nil
 }
@@ -49,10 +68,8 @@ func main() {
 	}.RegisterEndpoints(echo.New())
 
 	// initialize database entries with predefined URLs
-	if cfg.Migrate {
-		if err := initEntries(db, cfg.URLs); err != nil {
-			log.Fatal("failed to initialize URL entries", zap.Error(err))
-		}
+	if err := initEntries(cfg.Revision, db, cfg.AdminKey, cfg.URLs); err != nil {
+		log.Fatal("failed to initialize URL entries", zap.Error(err))
 	}
 
 	// start the server

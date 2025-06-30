@@ -3,8 +3,9 @@ package configs
 // Default returns the default configuration.
 func Default() Config {
 	return Config{
-		Port:    8080,
-		Migrate: false,
+		Port:     8080,
+		Revision: 1,
+		AdminKey: "admin",
 		Storage: Storage{
 			Port:     5432,
 			Host:     "127.0.0.1",

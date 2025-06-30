@@ -24,6 +24,7 @@ func NewDatabase(uri string) (*Database, error) {
 
 	// create the necessary tables if they do not exist
 	interfaces := []interface{}{
+		&models.Migration{},
 		&models.Session{},
 		&models.Url{},
 	}
