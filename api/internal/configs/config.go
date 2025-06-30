@@ -19,7 +19,7 @@ const (
 
 // Config stores the application parameters.
 type Config struct {
-	Port     int                    `koanf:"int"`
+	Port     int                    `koanf:"port"`
 	Revision int                    `koanf:"revision"`
 	AdminKey string                 `koanf:"admin_key"`
 	Storage  configtypes.Storage    `koanf:"storage"`

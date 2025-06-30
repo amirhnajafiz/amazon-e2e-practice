@@ -1,23 +1,25 @@
-# Stage 1: Build
-FROM node:18 AS builder
+FROM node:18
 
 WORKDIR /app
 
+# Copy and install
 COPY package*.json ./
 RUN npm install
 
 COPY . .
 
+# Set build-time env vars for Vite config
+ARG VITE_PORT=3000
+ARG VITE_API_TARGET=http://localhost:8080
+ENV VITE_PORT=$VITE_PORT
+ENV VITE_API_TARGET=$VITE_API_TARGET
+
+# Build the app (Vite injects process.env.VITE_*)
 RUN npm run build
 
-# Stage 2: Run (development server with Vite)
-FROM node:18
+# Install vite for preview server
+RUN npm install -g vite
 
-WORKDIR /app
+EXPOSE 4173
 
-COPY --from=builder /app /app
-
-# Install only runtime dependencies
-RUN npm install --only=production
-
-CMD ["npm", "run", "dev"]
+CMD ["vite", "preview", "--host"]
