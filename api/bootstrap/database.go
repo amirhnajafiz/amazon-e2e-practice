@@ -9,8 +9,8 @@ import (
 	"github.com/amirhnajafiz/aep/backend/pkg/hashing"
 )
 
-// InitEntries initializes the database with the given revision, admin key, and URLs.
-func InitEntries(
+// SetupDatabase initializes the database with the given revision, admin key, and URLs.
+func SetupDatabase(
 	revision int,
 	key string,
 	db *database.Database,
