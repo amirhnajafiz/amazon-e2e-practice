@@ -12,7 +12,7 @@ type Handler struct {
 }
 
 // RegisterEndpoints registers the API endpoints with the Echo framework.
-func (h Handler) RegisterEndpoints(app *echo.Echo) *echo.Echo {
+func (h Handler) RegisterEndpoints(key string, app *echo.Echo) *echo.Echo {
 	// create a new API group with metrics middleware
 	api := app.Group("/api", h.log())
 
@@ -21,6 +21,12 @@ func (h Handler) RegisterEndpoints(app *echo.Echo) *echo.Echo {
 	api.PUT("/urls", h.insertSession)
 	api.GET("/urls/:url_id", h.getSessionsCount)
 	api.GET("/stats", h.getTopUrls)
+
+	// register the admin endpoints
+	admin := app.Group("/admin", h.admin(key))
+
+	admin.POST("/urls", h.createUrl)
+	admin.DELETE("/urls/:url_id", h.deleteUrl)
 
 	return app
 }

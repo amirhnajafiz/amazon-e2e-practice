@@ -23,15 +23,21 @@ func main() {
 		log.Fatal("failed to initialize database", err)
 	}
 
-	// create a new Echo instance and register endpoints
-	app := handler.Handler{
-		DB: db,
-	}.RegisterEndpoints(echo.New())
-
 	// initialize database entries with predefined URLs
 	if err := bootstrap.InitEntries(cfg.Revision, cfg.AdminKey, db, cfg.URLs); err != nil {
 		log.Fatal("failed to initialize URL entries", zap.Error(err))
 	}
+
+	// get the current migration's admin key
+	mig, err := db.GetLastMigration()
+	if err != nil || mig == nil {
+		log.Fatal("failed to get last migration", zap.Error(err))
+	}
+
+	// create a new Echo instance and register endpoints
+	app := handler.Handler{
+		DB: db,
+	}.RegisterEndpoints(mig.AdminKey, echo.New())
 
 	// start the server
 	log.Printf("server is running on port %d\n", cfg.Port)
