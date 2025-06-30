@@ -1,0 +1,24 @@
+FROM golang:1.22-alpine
+
+# Build working directory
+WORKDIR /usr/share/api
+
+# Copy source code
+COPY pkg/ pkg/
+COPY bootstrap/ bootstrap/
+COPY internal/ internal/
+COPY main.go main.go
+
+# Copy go.mod and go.sum files
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Set environment variables
+ENV GOOS=linux
+ENV CGO_ENABLED=0
+
+# Build the Go application
+RUN go build -o main && chmod +x ./main
+
+# Run the application
+CMD [ "./main" ]
