@@ -7,6 +7,7 @@ import (
 	"github.com/amirhnajafiz/aep/backend/internal/configs"
 	"github.com/amirhnajafiz/aep/backend/internal/database"
 	"github.com/amirhnajafiz/aep/backend/internal/handler"
+	"github.com/amirhnajafiz/aep/backend/pkg/hashing"
 
 	"github.com/labstack/echo/v4"
 	"go.uber.org/zap"
@@ -43,7 +44,7 @@ func initEntries(revision int, db *database.Database, key string, urls []configs
 	}
 
 	// insert the migration entry
-	if err := db.InsertMigration(int64(revision), key); err != nil {
+	if err := db.InsertMigration(int64(revision), hashing.MD5Hash(key)); err != nil {
 		return fmt.Errorf("failed to insert migration entry: %w", err)
 	}
 
