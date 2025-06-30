@@ -1,12 +1,14 @@
 package configs
 
+import "github.com/amirhnajafiz/aep/backend/pkg/configtypes"
+
 // Default returns the default configuration.
 func Default() Config {
 	return Config{
 		Port:     8080,
 		Revision: 1,
 		AdminKey: "admin",
-		Storage: Storage{
+		Storage: configtypes.Storage{
 			Port:     5432,
 			Host:     "127.0.0.1",
 			User:     "postgres",
@@ -14,6 +16,6 @@ func Default() Config {
 			Database: "postgres",
 			SSL:      "disable",
 		},
-		URLs: make([]URLEntry, 0),
+		URLs: make([]configtypes.URLEntry, 0),
 	}
 }

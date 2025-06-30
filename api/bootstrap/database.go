@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/amirhnajafiz/aep/backend/internal/configs"
 	"github.com/amirhnajafiz/aep/backend/internal/database"
+	"github.com/amirhnajafiz/aep/backend/pkg/configtypes"
 	"github.com/amirhnajafiz/aep/backend/pkg/hashing"
 )
 
@@ -14,7 +14,7 @@ func SetupDatabase(
 	revision int,
 	key string,
 	db *database.Database,
-	urls []configs.URLEntry,
+	urls []configtypes.URLEntry,
 ) error {
 	// get the last migration entry
 	lastMigration, err := db.GetLastMigration()

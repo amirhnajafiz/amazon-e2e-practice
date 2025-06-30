@@ -1,15 +1,6 @@
-package configs
+package configtypes
 
-import (
-	"fmt"
-)
-
-// URLEntry represents a URL entry in the configuration.
-type URLEntry struct {
-	Name        string `koanf:"name"`
-	URL         string `koanf:"url"`
-	Description string `koanf:"description"`
-}
+import "fmt"
 
 // Storage configuration for PostgreSQL database.
 type Storage struct {
