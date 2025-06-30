@@ -19,6 +19,11 @@ func initEntries(db *database.Database, urls []configs.URLEntry) error {
 		return err
 	}
 
+	// clear existing sessions in the database
+	if err := db.ClearSessions(); err != nil {
+		return err
+	}
+
 	for _, url := range urls {
 		if err := db.InsertUrl(url.Name, url.URL, url.Description); err != nil {
 			return err

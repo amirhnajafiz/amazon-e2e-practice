@@ -54,3 +54,15 @@ func (db *Database) GetSessionsCountByUrlID(urlID int64) (int, error) {
 
 	return int(count), nil
 }
+
+// ClearSessions deletes all session records from the database.
+func (db *Database) ClearSessions() error {
+	ctx := context.Background()
+
+	_, err := db.conn.NewDelete().Model(&models.Session{}).Exec(ctx)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
