@@ -25,14 +25,8 @@ func main() {
 		log.Fatal("failed to initialize URL entries", zap.Error(err))
 	}
 
-	// get the current migration's admin key
-	mig, err := db.GetLastMigration()
-	if err != nil || mig == nil {
-		log.Fatal("failed to get last migration", zap.Error(err))
-	}
-
 	// bootstrap the application
-	if err := bootstrap.SetupApp(cfg.Port, mig.AdminKey, db); err != nil {
+	if err := bootstrap.SetupApp(cfg.Port, db); err != nil {
 		log.Fatal("failed to bootstrap application", zap.Error(err))
 	}
 }
