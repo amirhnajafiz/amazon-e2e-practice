@@ -27,7 +27,7 @@ func (h Handler) admin(key string) echo.MiddlewareFunc {
 }
 
 // log middleware logs the request method, status, path, and request body size.
-func (h Handler) log() echo.MiddlewareFunc {
+func (h Handler) log(handler string) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			// call the next handler in the chain
@@ -41,7 +41,7 @@ func (h Handler) log() echo.MiddlewareFunc {
 			status := c.Response().Status
 			reqBodySize := c.Request().ContentLength
 
-			log.Printf("method: %s, status: %d, path: %s, request size: %d\n", method, status, path, reqBodySize)
+			log.Printf("[%s] method: %s, status: %d, path: %s, request size: %d\n", handler, method, status, path, reqBodySize)
 
 			return nil
 		}
