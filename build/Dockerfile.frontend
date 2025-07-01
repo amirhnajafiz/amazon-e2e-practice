@@ -10,7 +10,7 @@ COPY . .
 
 # Set build-time env vars for Vite config
 ARG VITE_PORT=3000
-ARG VITE_API_TARGET=http://localhost:8080
+ARG VITE_API_TARGET=http://e2e-practice-api:8080
 ENV VITE_PORT=$VITE_PORT
 ENV VITE_API_TARGET=$VITE_API_TARGET
 

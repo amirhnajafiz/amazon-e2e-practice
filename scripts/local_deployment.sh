@@ -15,7 +15,7 @@ docker run  \
     --network e2e-close-network \
     -d \
     --name e2e-practice-api \
-    -e AEP_revision=1 \
+    -v "$(pwd)/configs/api.config.yaml:/usr/share/api/config.yaml" \
     -p 8080:8080 \
     amazon-e2e-practice-api:latest
 docker run  \
