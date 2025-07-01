@@ -8,7 +8,6 @@ import (
 	"github.com/amirhnajafiz/aep/backend/internal/handler"
 
 	"github.com/labstack/echo/v4"
-	"go.uber.org/zap"
 )
 
 // SetupApp initializes the application with the given port, admin key, and database.
@@ -19,7 +18,7 @@ func SetupApp(
 	// get the current migration's admin key
 	mig, err := db.GetLastMigration()
 	if err != nil || mig == nil {
-		log.Fatal("failed to get last migration", zap.Error(err))
+		return fmt.Errorf("failed to get last migration: %w", err)
 	}
 
 	// create a new Echo instance and register endpoints
@@ -31,7 +30,7 @@ func SetupApp(
 	// start the server
 	log.Printf("server is running on port %d\n", port)
 	if err := app.Start(fmt.Sprintf(":%d", port)); err != nil {
-		log.Fatal("failed to start server", zap.Error(err))
+		return fmt.Errorf("failed to start server: %w", err)
 	}
 
 	return nil

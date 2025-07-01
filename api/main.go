@@ -6,8 +6,6 @@ import (
 	"github.com/amirhnajafiz/aep/backend/bootstrap"
 	"github.com/amirhnajafiz/aep/backend/internal/configs"
 	"github.com/amirhnajafiz/aep/backend/internal/database"
-
-	"go.uber.org/zap"
 )
 
 func main() {
@@ -17,16 +15,16 @@ func main() {
 	// create a new database instance
 	db, err := database.NewDatabase(cfg.Storage.URI())
 	if err != nil {
-		log.Fatal("failed to initialize database", err)
+		log.Fatalf("failed to initialize database: %v", err)
 	}
 
 	// initialize database entries with predefined URLs
 	if err := bootstrap.SetupDatabase(cfg.Revision, cfg.AdminKey, db, cfg.URLs); err != nil {
-		log.Fatal("failed to initialize URL entries", zap.Error(err))
+		log.Fatalf("failed to initialize URL entries: %v", err)
 	}
 
 	// bootstrap the application
 	if err := bootstrap.SetupApp(cfg.Port, db); err != nil {
-		log.Fatal("failed to bootstrap application", zap.Error(err))
+		log.Fatalf("failed to bootstrap application: %v", err)
 	}
 }
