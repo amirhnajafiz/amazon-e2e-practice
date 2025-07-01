@@ -1,0 +1,48 @@
+version: '3.9'
+
+networks:
+  e2e-close-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    networks:
+      - e2e-close-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  e2e-practice-api:
+    build:
+      context: api
+      dockerfile: ../build/Dockerfile.api
+    container_name: e2e-practice-api
+    volumes:
+      - ./configs/api.config.yaml:/usr/share/api/config.yaml
+    ports:
+      - "8080:8080"
+    networks:
+      - e2e-close-network
+    depends_on:
+      - postgres
+
+  e2e-practice-frontend:
+    build:
+      context: frontend
+      dockerfile: ../build/Dockerfile.frontend
+    container_name: e2e-practice-frontend
+    ports:
+      - "3000:4173"
+    networks:
+      - e2e-close-network
+    depends_on:
+      - e2e-practice-api
