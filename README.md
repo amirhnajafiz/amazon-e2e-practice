@@ -7,8 +7,8 @@ A key skill for any system tech professional is the ability to develop, deploy, 
 
 To complete the end-to-end workflow, I containerized the system and deployed it using three different methods:
 
-1. **Standard Docker commands**
-2. **Docker Compose with Nginx as a reverse proxy**
+1. **Standard Docker commands**: In `scripts` directory, the `local_build.sh` and `local_deployment.sh`.
+2. **Docker Compose with Nginx as a reverse proxy**: Using `docker compose up -d`.
 3. **Infrastructure automation using Ansible and Terraform**
 
 This project demonstrates the full lifecycle of application development and deployment—from writing code to automating infrastructure.

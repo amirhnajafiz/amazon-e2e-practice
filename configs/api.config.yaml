@@ -1,6 +1,14 @@
+# File: configs/api.config.yaml
+# This file is used to configure the API service in the Docker environment.
+
+# HTTP server port
 port: 8080
+
+# Database migration
 revision: 2
 admin_key: "secret_admin_key"
+
+# Database connection settings
 storage:
   host: "postgres"
   port: 5432
@@ -8,6 +16,8 @@ storage:
   password: "password"
   database: "postgres"
   ssl: "disable"
+
+# Initial data for the API
 urls:
   - shortened_id: "Google"
     address: "https://www.google.com"
