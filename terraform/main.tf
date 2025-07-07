@@ -1,6 +1,8 @@
+# Main Terraform configuration file
 provider "null" {}
 
 resource "null_resource" "app_setup" {
+  # Open SSH connection to the VM
   connection {
     type        = "ssh"
     host        = var.vm_ip
@@ -10,14 +12,25 @@ resource "null_resource" "app_setup" {
 
   # Upload nginx.conf to the VM
   provisioner "file" {
-    source      = "${path.module}/nginx.conf"
+    source      = "${var.nginx_conf_path}"
     destination = "/home/${var.vm_user}/nginx.conf"
   }
 
+  # Install packages
+  provisioner "apt" {
+    update = true
+    packages = [
+      "git",
+      "docker.io",
+      "docker-compose",
+      "nginx",
+      "openssl"
+    ]
+  }
+
+  # Set up Docker and Nginx
   provisioner "remote-exec" {
     inline = [
-      "sudo apt update",
-      "sudo apt install -y git docker.io docker-compose nginx openssl",
       "sudo usermod -aG docker ${var.vm_user}",
       "git clone ${var.git_repo_url} /home/${var.vm_user}/app || true",
       "cd /home/${var.vm_user}/app && sudo docker-compose up -d",
@@ -31,6 +44,7 @@ resource "null_resource" "app_setup" {
     ]
   }
 
+  # Clean up on destroy
   provisioner "remote-exec" {
     when    = destroy
     inline  = [

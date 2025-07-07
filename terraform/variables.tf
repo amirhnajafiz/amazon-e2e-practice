@@ -1,10 +1,12 @@
+# Terraform variables definitions
+
 variable "vm_ip" {
   description = "IP address of the VM"
   type        = string
 }
 
 variable "vm_user" {
-  description = "SSH username (e.g., ubuntu)"
+  description = "SSH username"
   type        = string
   default     = "ubuntu"
 }
@@ -18,5 +20,11 @@ variable "ssh_private_key_path" {
 variable "git_repo_url" {
     description = "URL of the Git repository to clone"
     type        = string
-    default     = "https://github.com/YOUR_USERNAME/YOUR_REPO.git"
+    default     = ""
+}
+
+variable "nginx_conf_path" {
+  description = "Path to the nginx configuration file"
+  type        = string
+  default     = "${path.module}/nginx.conf"
 }
