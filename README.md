@@ -1,6 +1,6 @@
 # Amazon E2E Practice
 
-Welcome to the **Amazon E2E Practice** repository! This project showcases a complete workflow for building, deploying, and automating modern applications.
+This project shows the full process of building, deploying, and automating a modern web application. It includes a central dashboard that displays links to other platforms like LinkedIn and YouTube. All user activity, including visited URLs, is saved in a database. An API handles communication between the frontend and the backend. The entire system is first run locally using Docker, and then deployed to a virtual machine using Terraform to set up the infrastructure.
 
 ## 🚀 Overview
 
@@ -23,7 +23,7 @@ Welcome to the **Amazon E2E Practice** repository! This project showcases a comp
         - `scripts/local_build.sh` – Build images  
         - `scripts/local_deployment.sh` – Deploy locally
     - Docker Compose:  
-        - `docker compose up -d` – Orchestrate services with Nginx
+        - `docker compose up -d` – Orchestrate services
     - Terraform:  
         - `scripts/terraform_deployment.sh` – Provision infrastructure  
         - `scripts/terraform_teardown.sh` – Teardown resources  
